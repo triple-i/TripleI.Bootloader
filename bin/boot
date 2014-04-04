@@ -1,0 +1,11 @@
+#! /usr/bin/env php
+<?php
+
+require_once dirname(__FILE__).'/../src/Bootstrap.php';
+
+
+use TripleI\Bootloader\Utility\Aws\S3;
+$s3 = new S3();
+$response = $s3->download('GEMINI_APP_scale.txt');
+echo $response->get('Body');
+

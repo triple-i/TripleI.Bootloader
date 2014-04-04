@@ -1,0 +1,21 @@
+{
+    "name": "triplei/bootloader",
+    "description":" ",
+    "keywords":[
+    ],
+    "config":{
+        "bin-dir": "bin"
+    },
+    "license": "BSD-3-Clause",
+    "autoload":{
+        "psr-4":{
+            "TripleI\\Bootloader\\": "src/"
+        }
+    },
+    "require": {
+        "aws/aws-sdk-php": "2.*"
+    },
+    "require-dev": {
+        "satooshi/php-coveralls": "dev-master"
+    }
+}
