@@ -9,6 +9,9 @@ nbproject
 */logs/*
 */cache/*
 
+bin/*
+!bin/boot
+
 data/config/aws.ini
 
 build/*

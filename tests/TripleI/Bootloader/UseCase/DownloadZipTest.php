@@ -45,7 +45,7 @@ class DownloadZipTest extends PHPUnit_Framework_TestCase
      * @test
      * @expectedException           Exception
      * @expectedExceptionMessage    指定したアプリケーションは存在しません
-     * @group zip-not-exists-zipfile
+     * @group zip-not-exist-zipfile
      * @group zip
      */
     public function 指定したzipファイルがS3にない場合 ()
