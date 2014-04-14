@@ -48,7 +48,6 @@ class DownloadZip
      **/
     public function setParameters (Array $params)
     {
-        array_shift($params);
         $this->params = $params;
     }
 
@@ -76,7 +75,7 @@ class DownloadZip
     {
         try {
             $this->_validateParameters();
-            $response = $this->S3->download($this->app_name.'.zip');
+            $response = $this->S3->download($this->zip_name);
 
             // zipファイルを保存する
             $zip_path = '/tmp/'.$this->zip_name;
@@ -105,7 +104,7 @@ class DownloadZip
         $this->app_name = array_shift($this->params);
         $this->zip_name = $this->app_name.'.zip';
 
-        if (! $this->S3->doesObjectExist($this->app_name)) {
+        if (! $this->S3->doesObjectExist($this->zip_name)) {
             throw new \Exception('指定したアプリケーションは存在しません');
         }
     }

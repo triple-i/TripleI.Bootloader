@@ -17,15 +17,6 @@ class UnZipFile
 
 
     /**
-     * ユーザ名
-     *
-     * @var String
-     **/
-    private $user;
-
-
-
-    /**
      * zipファイルへのパス
      *
      * @var String
@@ -66,14 +57,13 @@ class UnZipFile
 
 
     /**
-     * ユーザ名をセットする
+     * 解凍用ディレクトリのパスを取得する
      *
-     * @param String $user  ユーザ名
-     * @return void
+     * @return String
      **/
-    public function setUser ($user)
+    public function getThawingDir ()
     {
-        $this->user = $user;
+        return $this->thawing_dir;
     }
 
 
@@ -91,7 +81,9 @@ class UnZipFile
 
             // 解凍ディレクトリの生成
             $this->_makeThawingDirectory();
-            
+
+            // アプリケーションファイルの解凍
+            $this->_thawingApplication();
         
         } catch (\Exception $e) {
             throw $e;
@@ -113,10 +105,6 @@ class UnZipFile
             throw new \Exception('ファイル名が指定されていません');
         }
 
-        if (is_null($this->user)) {
-            throw new \Exception('ユーザ名が指定されていません');
-        }
-
 
         $this->zip_path = '/tmp/'.$this->file_name.'.zip';
         if (! file_exists($this->zip_path)) {
@@ -133,17 +121,37 @@ class UnZipFile
      **/
     private function _makeThawingDirectory ()
     {
-        // ユーザディレクトリの有無を確認
-        $user_dir = '/home/'.$this->user;
-        if (! is_dir($user_dir)) {
-            var_dump(getcwd());
-            exit();
-            exec('cd && pwd', $re);
-            var_dump(dirname(__FILE__));
-            exit();
-            //exec('mkdir '.$user_dir);
+        // 解凍用ディレクトリの有無を確認
+        $user_dir = (IS_EC2) ? '/home/ec2-user': '/tmp';
+        $thaw_dir = $user_dir.DS.'thawing';
+        if (! is_dir($thaw_dir)) {
+            mkdir ($thaw_dir);
         }
 
+        $this->thawing_dir = $thaw_dir;
         $this->datetime = date('YmdHis');
+
+        // アプリケーションディレクトリの生成
+        if (! is_dir($thaw_dir.DS.$this->file_name)) {
+            mkdir($thaw_dir.DS.$this->file_name);
+        }
+
+        // 日付ディレクトリの生成
+        mkdir ($thaw_dir.DS.$this->file_name.DS.$this->datetime);
+    }
+
+
+
+    /**
+     * 解凍処理
+     *
+     * @return void
+     **/
+    private function _thawingApplication ()
+    {
+        // datetimeディレクトリ内に解凍する
+        $date_dir = $this->thawing_dir.DS.$this->file_name.DS.$this->datetime;
+        $command = sprintf('cd %s && unzip %s ', $date_dir, $this->zip_path);
+        exec($command);
     }
 }

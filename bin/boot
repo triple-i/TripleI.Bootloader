@@ -3,9 +3,32 @@
 
 require_once dirname(__FILE__).'/../src/Bootstrap.php';
 
+use TripleI\Bootloader\UseCase\DownloadZip;
+use TripleI\Bootloader\UseCase\UnZipFile;
 
 use TripleI\Bootloader\Utility\Aws\S3;
-$s3 = new S3();
-$response = $s3->download('GEMINI_APP_scale.txt');
-echo $response->get('Body');
+
+
+try {
+    array_shift($argv);
+
+    // zipアプリケーションをダウンロードする
+    $downloadzip = new DownloadZip();
+    $downloadzip->setParameters($argv);
+    $downloadzip->setS3(new S3());
+    $downloadzip->execute();
+
+    // ダウンロードしたzipを解凍する
+    $unzip = new UnZipFile();
+    $unzip->setFileName($argv[0]);
+    $unzip->execute();
+
+    // 初期化クラスの呼び出し
+    $callToInitClass = new CallToInitClass();
+    $callToInitClass->setFileName($argv[0]);
+    $callToInitClass->execute();
+
+} catch (\Exception $e) {
+    throw $e;
+}
 

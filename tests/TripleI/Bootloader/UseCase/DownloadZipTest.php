@@ -35,7 +35,7 @@ class DownloadZipTest extends PHPUnit_Framework_TestCase
      **/
     public function 引数が足りない場合 ()
     {
-        $this->usecase->setParameters(array('boot'));
+        $this->usecase->setParameters(array());
         $this->usecase->execute();
     }
 
@@ -55,7 +55,7 @@ class DownloadZipTest extends PHPUnit_Framework_TestCase
             ->method('doesObjectExist')
             ->will($this->returnValue(false));
 
-        $this->usecase->setParameters(array('boot', 'hoge'));
+        $this->usecase->setParameters(array('hoge'));
         $this->usecase->setS3($S3);
         $this->usecase->execute();
     }
@@ -81,7 +81,7 @@ class DownloadZipTest extends PHPUnit_Framework_TestCase
             ->method('download')
             ->will($this->returnValue($response));
 
-        $this->usecase->setParameters(array('boot', 'hoge'));
+        $this->usecase->setParameters(array('hoge'));
         $this->usecase->setS3($S3);
         $this->usecase->execute();
 

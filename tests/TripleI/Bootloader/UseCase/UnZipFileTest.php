@@ -42,21 +42,6 @@ class UnZipFileTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      * @expectedException           Exception
-     * @expectedExceptionMessage    ユーザ名が指定されていません
-     * @group unzip
-     * @group unzip-not-user
-     **/
-    public function ユーザ名の指定がない場合 ()
-    {
-        $this->usecase->setFileName('hoge');
-        $this->usecase->execute();
-    }
-
-
-
-    /**
-     * @test
-     * @expectedException           Exception
      * @expectedExceptionMessage    指定したファイルが存在しません
      * @group unzip
      * @group unzip-not-exist-zipfile
@@ -65,10 +50,8 @@ class UnZipFileTest extends PHPUnit_Framework_TestCase
     {
         $file_name = 'hoge';
         $this->usecase->setFileName($file_name);
-        $this->usecase->setUser(get_current_user());
         $this->usecase->execute();
     }
-
 
 
 
@@ -77,16 +60,23 @@ class UnZipFileTest extends PHPUnit_Framework_TestCase
      * @group unzip
      * @group unzip-execute
      */
-    //public function 正常な処理 ()
-    //{
-        //// zipファイルを生成しておく
-        //mkdir('/tmp/hoge');
-        //touch('/tmp/hoge/text.txt');
-        //exec('cd /tmp && zip -r /tmp/hoge.zip ./hoge');
-        //exec('rm -rf /tmp/hoge');
+    public function 正常な処理 ()
+    {
+        // zipファイルを生成しておく
+        mkdir('/tmp/hoge');
+        touch('/tmp/hoge/text.txt');
+        exec('cd /tmp && zip -r /tmp/hoge.zip ./hoge');
+        exec('rm -rf /tmp/hoge');
 
-        //$this->usecase->setFileName('hoge');
-        //$this->usecase->setUser(get_current_user());
-        //$this->usecase->execute();
-    //}
+        $this->usecase->setFileName('hoge');
+        $result = $this->usecase->execute();
+        $this->assertTrue($result);
+
+        $thaw_dir = $this->usecase->getThawingDir();
+        $this->assertTrue(is_dir($thaw_dir));
+        if (is_dir($thaw_dir)) {
+            exec('rm -rf '.$thaw_dir);
+        }
+        exec('rm /tmp/hoge.zip');
+    }
 }
