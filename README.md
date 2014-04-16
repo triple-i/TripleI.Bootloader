@@ -1,4 +1,4 @@
-TripleI.Bootloader
+TripleI.Bootloader [![Build Status](https://travis-ci.org/triple-i/TripleI.Bootloader.svg?branch=master)](https://travis-ci.org/triple-i/TripleI.Bootloader)
 =======
 S3 の zip ファイルからアプリケーションを起動するツールです。
 ---------------------------------------------

@@ -43,6 +43,24 @@ class CallToInitializer
 
 
     /**
+     * 解凍ディレクトリへのパス
+     *
+     * @var String
+     **/
+    private $thawing_dir;
+
+
+
+    /**
+     * 日付ディレクトリ名
+     *
+     * @var String
+     **/
+    private $datetime;
+
+
+
+    /**
      * 初期化クラス
      *
      * @var TripleI\Bootloader\Utility\Initializer\AbstractInitializer
@@ -65,6 +83,32 @@ class CallToInitializer
 
         $this->file_name  = strtolower($file_name);
         $this->class_name = ucfirst($this->file_name);
+    }
+
+
+
+    /**
+     * 解凍ディレクトリをセットする
+     *
+     * @param String $thawing_dir  解凍ディレクトリへのパス
+     * @return void
+     **/
+    public function setThawingDir ($thawing_dir)
+    {
+        $this->thawing_dir = $thawing_dir;
+    }
+
+
+
+    /**
+     * 日付ディレクトリ名をセットする
+     *
+     * @param String $datetime  日付ディレクトリ名
+     * @return void
+     **/
+    public function setDateTime ($datetime)
+    {
+        $this->datetime = $datetime;
     }
 
 
@@ -99,6 +143,16 @@ class CallToInitializer
      **/
     private function _validateParameters ()
     {
+        // 解凍ディレクトリのパスがセットされているかどうか
+        if (is_null($this->thawing_dir)) {
+            throw new \Exception('解凍ディレクトリを指定してください');
+        }
+
+        // 日付ディレクトリ名がセットされているかどうか
+        if (is_null($this->datetime)) {
+            throw new \Exception('日付ディレクトリ名を指定してください');
+        }
+
         // パラメータのバリデート
         if (is_null($this->file_name)) {
             throw new \Exception('初期化クラスを指定してください');
@@ -114,8 +168,6 @@ class CallToInitializer
         // 初期化クラスの読み込み
         require $initializer;
         $this->init_class = new \Initializer();
-        //var_dump(get_parent_class($this->init_class));
-        //exit();
 
         if (get_parent_class($this->init_class) != 'TripleI\Bootloader\Utility\Initializer\AbstractInitializer') {
             throw new \Exception('正しい初期化クラスではありません');

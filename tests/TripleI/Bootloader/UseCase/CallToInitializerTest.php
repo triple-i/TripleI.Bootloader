@@ -42,15 +42,39 @@ class CallToInitializerTest extends \PHPUnit_Framework_TestCase
     public function tearDown ()
     {
         // テスト用初期化クラスの削除
-        $init_class = ROOT_PATH.DS.$this->class_path.DS.'Hoge.php';
-        if (file_exists($init_class)) {
-            unlink($init_class);
-        }
-
         $init_class = ROOT_PATH.DS.$this->class_path.DS.'Test.php';
         if (file_exists($init_class)) {
             unlink($init_class);
         }
+    }
+
+
+
+    /**
+     * @test
+     * @expectedException           Exception
+     * @expectedExceptionMessage    解凍ディレクトリを指定してください
+     * @group call
+     * @group call-valid-thaw-dir
+     */
+    public function 解凍ディレクトリが指定されていない場合 ()
+    {
+        $this->usecase->execute();
+    }
+
+
+
+    /**
+     * @test
+     * @expectedException           Exception
+     * @expectedExceptionMessage    日付ディレクトリ名を指定してください
+     * @group call
+     * @group call-valid-datetime
+     */
+    public function 日付ディレクトリ名が指定されていない場合 ()
+    {
+        $this->usecase->setThawingDir('/tmp');
+        $this->usecase->execute();
     }
 
 
@@ -64,6 +88,8 @@ class CallToInitializerTest extends \PHPUnit_Framework_TestCase
      */
     public function 引数が指定されていない場合 ()
     {
+        $this->usecase->setThawingDir('/tmp');
+        $this->usecase->setDateTime(date('YmdHis'));
         $this->usecase->execute();
     }
 
@@ -80,28 +106,8 @@ class CallToInitializerTest extends \PHPUnit_Framework_TestCase
     {
         $params = array('hoge');
 
-        $this->usecase->setParameters($params);
-        $this->usecase->execute();
-    }
-
-
-
-    /**
-     * @test
-     * @expectedException           Exception
-     * @expectedExceptionMessage    正しい初期化クラスではありません
-     * @group call
-     * @group call-valid-initializer
-     */
-    public function 正しい初期化クラスでない場合 ()
-    {
-        $params = array('hoge');
-
-        // 初期化クラスの生成
-        $text = '<?php'.PHP_EOL.
-            'class Initializer {}';
-        file_put_contents(ROOT_PATH.DS.$this->class_path.DS.'Hoge.php', $text);
-
+        $this->usecase->setThawingDir('/tmp');
+        $this->usecase->setDateTime(date('YmdHis'));
         $this->usecase->setParameters($params);
         $this->usecase->execute();
     }
@@ -113,21 +119,23 @@ class CallToInitializerTest extends \PHPUnit_Framework_TestCase
      * @group call
      * @group call-execute
      */
-    //public function 正常な処理 ()
-    //{
-        //$params = array('test');
+    public function 正常な処理 ()
+    {
+        $params = array('test');
 
-        //// 初期化クラスの生成
-        //$text = '<?php'.PHP_EOL.
-            //'use TripleI\Bootloader\Utility\Initializer\AbstractInitializer;'.PHP_EOL.
-            //'class Initializer extends AbstractInitializer {'.PHP_EOL.
-            //'public function init () {}'.PHP_EOL.
-            //'}';
-        //file_put_contents(ROOT_PATH.DS.$this->class_path.DS.'Test.php', $text);
+        // 初期化クラスの生成
+        $text = '<?php'.PHP_EOL.
+            'use TripleI\Bootloader\Utility\Initializer\AbstractInitializer;'.PHP_EOL.
+            'class Initializer extends AbstractInitializer {'.PHP_EOL.
+            'public function init () {}'.PHP_EOL.
+            '}';
+        file_put_contents(ROOT_PATH.DS.$this->class_path.DS.'Test.php', $text);
 
-        //$this->usecase->setParameters($params);
-        //$result = $this->usecase->execute();
+        $this->usecase->setThawingDir('/tmp');
+        $this->usecase->setDateTime(date('YmdHis'));
+        $this->usecase->setParameters($params);
+        $result = $this->usecase->execute();
 
-        //$this->assertTrue($result);
-    //}
+        $this->assertTrue($result);
+    }
 }

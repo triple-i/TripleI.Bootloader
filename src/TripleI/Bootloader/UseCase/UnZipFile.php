@@ -69,6 +69,18 @@ class UnZipFile
 
 
     /**
+     * datetimeディレクトリ名を取得する
+     *
+     * @return String
+     **/
+    public function getDateTime ()
+    {
+        return $this->datetime;
+    }
+
+
+
+    /**
      * 解凍処理
      *
      * @return boolean
