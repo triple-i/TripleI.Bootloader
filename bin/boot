@@ -3,30 +3,23 @@
 
 require_once dirname(__FILE__).'/../src/Bootstrap.php';
 
-use TripleI\Bootloader\UseCase\DownloadZip;
-use TripleI\Bootloader\UseCase\UnZipFile;
+use TripleI\Bootloader\UseCase\Boot,
+    TripleI\Bootloader\UseCase\DownloadZip,
+    TripleI\Bootloader\UseCase\UnZipFile,
+    TripleI\Bootloader\UseCase\CallToInitializer;
 
 use TripleI\Bootloader\Utility\Aws\S3;
-
 
 try {
     array_shift($argv);
 
-    // zipアプリケーションをダウンロードする
-    $downloadzip = new DownloadZip();
-    $downloadzip->setParameters($argv);
-    $downloadzip->setS3(new S3());
-    $downloadzip->execute();
-
-    // ダウンロードしたzipを解凍する
-    $unzip = new UnZipFile();
-    $unzip->setFileName($argv[0]);
-    $unzip->execute();
-
-    // 初期化クラスの呼び出し
-    $callToInitClass = new CallToInitClass();
-    $callToInitClass->setFileName($argv[0]);
-    $callToInitClass->execute();
+    $boot = new Boot();
+    $boot->setParameters($argv);
+    $boot->setS3(new S3);
+    $boot->setDownloadZip(new DownloadZip);
+    $boot->setUnZipFile(new UnZipFile);
+    $boot->setCallToInitializer(new CallToInitializer);
+    $boot->execute();
 
 } catch (\Exception $e) {
     throw $e;

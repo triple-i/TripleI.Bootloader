@@ -85,7 +85,7 @@ class S3
      * 指定ファイルをS3からダウンロードする
      *
      * @param String $path
-     * @return void
+     * @return String
      **/
     public function download ($path)
     {
@@ -94,12 +94,18 @@ class S3
                 'Bucket' => $this->bucket,
                 'Key' => $path
             ));
+
+            $response['Body']->rewind();
+            $file = '';
+            while ($data = $response['Body']->read(1024)) {
+                $file .= $data;
+            }
         
         } catch (\Exception $e) {
             throw $e;
         }
 
-        return $response;
+        return $file;
     }
 }
 

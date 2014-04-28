@@ -79,11 +79,13 @@ class DownloadZip
 
             // zipファイルを保存する
             $zip_path = '/tmp/'.$this->zip_name;
-            file_put_contents($zip_path, $response['Body']);
+            file_put_contents($zip_path, $response);
         
         } catch (\Exception $e) {
             throw $e;
         }
+
+        return true;
     }
 
 

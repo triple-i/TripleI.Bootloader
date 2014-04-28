@@ -126,7 +126,7 @@ class CallToInitializerTest extends \PHPUnit_Framework_TestCase
         // 初期化クラスの生成
         $text = '<?php'.PHP_EOL.
             'use TripleI\Bootloader\Utility\Initializer\AbstractInitializer;'.PHP_EOL.
-            'class Initializer extends AbstractInitializer {'.PHP_EOL.
+            'class Test extends AbstractInitializer {'.PHP_EOL.
             'public function init () {}'.PHP_EOL.
             '}';
         file_put_contents(ROOT_PATH.DS.$this->class_path.DS.'Test.php', $text);

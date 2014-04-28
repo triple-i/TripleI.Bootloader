@@ -125,6 +125,9 @@ class CallToInitializer
             $this->_validateParameters();
 
             // 初期化クラスの処理を実行する
+            $this->init_class->setThawingDir($this->thawing_dir);
+            $this->init_class->setDateTime($this->datetime);
+            $this->init_class->setParameters($this->params);
             $this->init_class->init();
         
         } catch (\Exception $e) {
@@ -166,8 +169,9 @@ class CallToInitializer
 
 
         // 初期化クラスの読み込み
-        require $initializer;
-        $this->init_class = new \Initializer();
+        require_once $initializer;
+        $class_name = ucfirst(preg_replace('/[^0-9a-zA-Z]/', '', $this->class_name));
+        $this->init_class = new $class_name;
 
         if (get_parent_class($this->init_class) != 'TripleI\Bootloader\Utility\Initializer\AbstractInitializer') {
             throw new \Exception('正しい初期化クラスではありません');
