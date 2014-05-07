@@ -16,6 +16,7 @@ class Side2cron extends AbstractInitializer
     // 定数
     const QUEUE    = 'GEMINI_QUEUE';
     const PUBLISH  = 'GEMINI_PUBLISH';
+    const TEST     = 'GEMINI_TEST';
     const DOWNLOAD = 'DOWNLOAD';
 
 
@@ -148,6 +149,10 @@ class Side2cron extends AbstractInitializer
         switch ($this->params[1]) {
             case $this::PUBLISH:
                 $option = '-p';
+                break;
+
+            case $this::TEST:
+                $option = '-t';
                 break;
 
             case $this::QUEUE:

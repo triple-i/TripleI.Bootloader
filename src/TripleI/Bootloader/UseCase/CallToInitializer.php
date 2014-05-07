@@ -162,7 +162,7 @@ class CallToInitializer
         }
 
         // 初期化クラスの有無
-        $initializer = ROOT_PATH.DS.$this->class_path.DS.$this->class_name.'.php';
+        $initializer = ROOT_PATH.DS.$this->class_path.DS.$this->file_name.'.php';
         if (! file_exists($initializer)) {
             throw new \Exception('初期化クラスファイルが見つかりません');
         }
