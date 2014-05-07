@@ -102,7 +102,7 @@ class Side2cron extends AbstractInitializer
         $queue = $this->params[1];
 
         // キュー名称が正しくない場合はDOWNLOADにする
-        if ($queue != $this::PUBLISH && $queue !== $this::QUEUE) {
+        if ($queue != $this::PUBLISH && $queue !== $this::QUEUE && $queue !== $this::TEST) {
             $this->params[1] = $this::DOWNLOAD;
         }
     }
