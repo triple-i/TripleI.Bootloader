@@ -130,6 +130,7 @@ class CallToInitializerTest extends \PHPUnit_Framework_TestCase
             'public function init () {}'.PHP_EOL.
             '}';
         file_put_contents(ROOT_PATH.DS.$this->class_path.DS.'Test.php', $text);
+        chmod(ROOT_PATH.DS.$this->class_path.DS.'Test.php', 0777);
 
         $this->usecase->setThawingDir('/tmp');
         $this->usecase->setDateTime(date('YmdHis'));
