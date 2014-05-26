@@ -129,8 +129,8 @@ class CallToInitializerTest extends \PHPUnit_Framework_TestCase
             'class Test extends AbstractInitializer {'.PHP_EOL.
             'public function init () {}'.PHP_EOL.
             '}';
-        file_put_contents(ROOT_PATH.DS.$this->class_path.DS.'Test.php', $text);
-        chmod(ROOT_PATH.DS.$this->class_path.DS.'Test.php', 0777);
+        file_put_contents(ROOT_PATH.DS.$this->class_path.DS.'test.php', $text);
+        chmod(ROOT_PATH.DS.$this->class_path.DS.'test.php', 0777);
 
         $this->usecase->setThawingDir('/tmp');
         $this->usecase->setDateTime(date('YmdHis'));
