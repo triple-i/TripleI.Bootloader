@@ -65,36 +65,32 @@ class DownloadZip
     }
 
 
-
     /**
      * 処理の実行
      *
+     * @throws \Exception
      * @return boolean
-     **/
+     */
     public function execute ()
     {
         try {
             $this->_validateParameters();
             $response = $this->S3->download($this->zip_name);
 
-            // zipファイルを保存する
-            $zip_path = '/tmp/'.$this->zip_name;
-            file_put_contents($zip_path, $response);
-        
-        } catch (\Exception $e) {
+        } catch (Aws\S3\Exception\S3Exception $e) {
             throw $e;
         }
 
-        return true;
+        return $response;
     }
-
 
 
     /**
      * 引数をバリデートする
      *
+     * @throws \Exception
      * @return void
-     **/
+     */
     private function _validateParameters ()
     {
         // パラメータがない場合

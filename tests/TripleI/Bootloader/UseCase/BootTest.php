@@ -23,7 +23,7 @@ class BootTest extends \PHPUnit_Framework_TestCase
 
 
     /**
-     * @var TrippleI\Bootloader\UseCase\UnZipFile
+     * @var TripleI\Bootloader\UseCase\UnZipFile
      **/
     private $uzf;
 

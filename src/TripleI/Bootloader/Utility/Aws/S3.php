@@ -80,32 +80,27 @@ class S3
     }
 
 
-
     /**
      * 指定ファイルをS3からダウンロードする
      *
-     * @param String $path
+     * @param String $objKey
+     * @throws \Exception
      * @return String
-     **/
-    public function download ($path)
+     */
+    public function download ($objKey)
     {
         try {
             $response = $this->client->getObject(array(
                 'Bucket' => $this->bucket,
-                'Key' => $path
+                'Key' => $objKey,
+                'SaveAs' => '/tmp/' . $objKey
             ));
 
-            $response['Body']->rewind();
-            $file = '';
-            while ($data = $response['Body']->read(1024)) {
-                $file .= $data;
-            }
-        
         } catch (\Exception $e) {
             throw $e;
         }
 
-        return $file;
+        return $response;
     }
 }
 
