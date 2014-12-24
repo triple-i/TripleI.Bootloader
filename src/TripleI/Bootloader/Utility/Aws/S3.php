@@ -100,7 +100,7 @@ class S3
             throw $e;
         }
 
-        return true;
+        return $response;
     }
 }
 

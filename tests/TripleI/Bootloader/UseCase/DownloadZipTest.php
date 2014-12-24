@@ -74,12 +74,9 @@ class DownloadZipTest extends PHPUnit_Framework_TestCase
             ->method('doesObjectExist')
             ->will($this->returnValue(true));
 
-        $response = $this->getMock('Guzzle\Service\Resource\Model');
-        $response->set('Body', 'test');
-
         $S3->expects($this->once())
             ->method('download')
-            ->will($this->returnValue($response));
+            ->will($this->returnValue(true));
 
         $this->usecase->setParameters(array('hoge'));
         $this->usecase->setS3($S3);
