@@ -96,17 +96,11 @@ class S3
                 'SaveAs' => '/tmp/' . $objKey
             ));
 
-//            $response['Body']->rewind();
-//            $file = '';
-//            while ($data = $response['Body']->read(1024)) {
-//                $file .= $data;
-//            }
-        
         } catch (\Exception $e) {
             throw $e;
         }
 
-//        return $file;
+        return true;
     }
 }
 
