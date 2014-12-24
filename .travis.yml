@@ -18,4 +18,7 @@ after_script:
     - php bin/coveralls -v
 
 notifications:
-  email: false
+  email: 
+    - info@gemini-project.net
+  on_success: never
+  on_failure: always
