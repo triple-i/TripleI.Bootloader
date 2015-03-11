@@ -114,7 +114,7 @@ class Side2cron extends AbstractInitializer
      *
      * @return void
      **/
-    private function _downloadGeminiXsl ()
+    protected function _downloadGeminiXsl ()
     {
         $xslt_dir = $this->root_path.DS.'library'.DS.'xslt'.DS.'gemini-xsl';
         if (! is_dir($xslt_dir)) mkdir($xslt_dir, 0777, true);
@@ -141,7 +141,7 @@ class Side2cron extends AbstractInitializer
      *
      * @return void
      **/
-    private function _executeSide2Cron ()
+    protected function _executeSide2Cron ()
     {
         chdir($this->root_path.DS);
 
@@ -169,7 +169,7 @@ class Side2cron extends AbstractInitializer
             'nohup %s %s > %s 2>&1 &',
             $this->root_path.DS.'scale-boot.sh',
             $option,
-            $this->thawing_dir.DS.'side2-cron'.DS.'exceed-log'
+            $this->thawing_dir.DS.$this->params[0].DS.'exceed-log'
         );
         passthru($command);
     }
