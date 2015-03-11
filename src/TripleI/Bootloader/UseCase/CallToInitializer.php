@@ -173,7 +173,7 @@ class CallToInitializer
         $class_name = ucfirst(preg_replace('/[^0-9a-zA-Z]/', '', $this->class_name));
         $this->init_class = new $class_name;
 
-        if (get_parent_class($this->init_class) != 'TripleI\Bootloader\Utility\Initializer\AbstractInitializer') {
+        if (! $this->init_class instanceof \TripleI\Bootloader\Utility\Initializer\AbstractInitializer) {
             throw new \Exception('正しい初期化クラスではありません');
         }
     }
