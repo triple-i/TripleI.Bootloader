@@ -119,10 +119,16 @@ class Side2cron extends AbstractInitializer
         $xslt_dir = $this->root_path.DS.'library'.DS.'xslt'.DS.'gemini-xsl';
         if (! is_dir($xslt_dir)) mkdir($xslt_dir, 0777, true);
 
-        $params = array(
-            'gemini-xsl',
+        if ($this->isTest()) {
+            $xsl_file = 'gemini-xsl-test';
+        } else {
+
+            $xsl_file = 'gemini-xsl';
+        }
+        $params = [
+            $xsl_file,
             $this->root_path.DS.'library'.DS.'xslt'.DS.'gemini-xsl'
-        );
+        ];
 
 
         $boot = new Boot();
@@ -172,5 +178,15 @@ class Side2cron extends AbstractInitializer
             $this->thawing_dir.DS.$this->params[0].DS.'exceed-log'
         );
         passthru($command);
+    }
+
+    private function isTest()
+    {
+        $param = $this->params[0];
+        if (strpos($param, '-test') === false) {
+            return false;
+        }
+
+        return true;
     }
 }
