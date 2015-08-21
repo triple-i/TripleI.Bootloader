@@ -122,14 +122,10 @@ class Side2cron extends AbstractInitializer
         if ($this->isTest()) {
             $xsl_file = 'gemini-xsl-test';
         } else {
-
             $xsl_file = 'gemini-xsl';
         }
-        $params = [
-            $xsl_file,
-            $this->root_path.DS.'library'.DS.'xslt'.DS.'gemini-xsl'
-        ];
 
+        $params = [$xsl_file, $xslt_dir];
 
         $boot = new Boot();
         $boot->setParameters($params);
